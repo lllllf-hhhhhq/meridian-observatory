@@ -1,0 +1,10 @@
+{
+  "name": "meridian",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Meridian exhibition site with a working reservation function",
+  "dependencies": {
+    "nodemailer": "^6.9.16"
+  }
+}

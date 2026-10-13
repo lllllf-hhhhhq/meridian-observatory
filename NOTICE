@@ -1,0 +1,91 @@
+Meridian Observatory
+Attribution and licensing notice
+
+Copyright (C) 2026 lllllf-hhhhhq
+
+This site bundles the Stellarium Web Engine together with a mirror of
+astronomy data published by the Stellarium project. The sections below
+record the origin of each bundled component and the terms that apply to it.
+
+
+1. Site code
+------------
+
+The HTML, CSS and JavaScript written for this site (the catalogue pages,
+the planisphere, the reservation function and the build configuration) are
+released under the GNU Affero General Public License, version 3. The full
+text is in the LICENSE file at the root of this repository.
+
+Corresponding source:
+https://github.com/lllllf-hhhhhq/meridian-observatory
+
+
+2. Stellarium Web Engine
+------------------------
+
+Files:
+  public/vendor/swe/stellarium-web-engine.js
+  public/vendor/swe/stellarium-web-engine.wasm
+
+Upstream project: Stellarium/stellarium-web-engine
+Upstream URL: https://github.com/Stellarium/stellarium-web-engine
+License: GNU Affero General Public License, version 3
+License text:
+  https://github.com/Stellarium/stellarium-web-engine/blob/master/LICENSE-AGPL-3.0.txt
+
+The engine is compiled from the upstream sources with the Emscripten SDK
+into the JavaScript loader and the WebAssembly binary listed above. Copyright
+of the engine remains with the Stellarium Web Engine authors, and the engine
+is distributed here under the same AGPL-3.0 terms, unchanged.
+
+
+3. Astronomy data
+-----------------
+
+Directories and files:
+  public/data/stars/                 minimum star survey (HiPS, eph tiles)
+  public/data/dsos/                  base deep sky object survey (HiPS, eph tiles)
+  public/data/skycultures/western/   western sky culture (index.json, illustrations)
+  public/data/landscapes/guereins/   Guereins landscape (HiPS, webp tiles)
+  public/data/meteor-showers.json    meteor shower model data
+
+Source: Stellarium Web project content distribution
+URL: https://stellarium.sfo2.cdn.digitaloceanspaces.com/stellarium-web/libswe-1.17.0
+
+These files are a mirror of content distributed by the Stellarium project.
+Each dataset may carry its own license and attribution terms, set by the
+Stellarium project and by the original data providers, for example the star
+catalogues and the sky culture contributors. No separate license file
+accompanies the mirrored files in this repository, and the per dataset terms
+could not be confirmed from a first hand source at the time of writing. The
+Stellarium project and its upstream data providers are the source of truth
+for the licensing of these datasets.
+
+
+4. Catalogue data on the planisphere and Plates page
+----------------------------------------------------
+
+The star positions, visual magnitudes and spectral types shown on the
+planisphere and on the Plates page follow the Yale Bright Star Catalog as
+catalogued in VizieR V/50, quoted from the corresponding SIMBAD records.
+Coordinates for the deep sky objects follow SIMBAD, with galaxy distances
+from NASA/IPAC NED.
+
+VizieR V/50:
+  https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=V/50
+SIMBAD:
+  https://simbad.u-strasbg.fr/simbad/
+NASA/IPAC NED:
+  https://ned.ipac.caltech.edu/
+
+
+5. Fonts
+--------
+
+The site loads Albert Sans, JetBrains Mono and Marcellus from Google Fonts.
+Each typeface is licensed by its respective designer and is distributed by
+Google Fonts under the terms stated on the Google Fonts site.
+
+Albert Sans:   https://fonts.google.com/specimen/Albert+Sans
+JetBrains Mono: https://fonts.google.com/specimen/JetBrains+Mono
+Marcellus:     https://fonts.google.com/specimen/Marcellus

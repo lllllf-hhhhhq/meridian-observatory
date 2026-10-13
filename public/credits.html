@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credits &amp; licences — Meridian</title>
+<meta name="description" content="Credits, data sources and licensing for the Meridian site: the Stellarium Web Engine, the mirrored astronomy data, the reference catalogues and the typefaces.">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Marcellus&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%230B0F1A' stroke='%23E9A13B' stroke-width='2'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23E9A13B' stroke-width='2'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip-link" href="#credits">Skip to the credits</a>
+
+<header class="page-head">
+  <div class="shell masthead">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="16" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="1"/>
+        <line x1="16" y1="0.5" x2="16" y2="31.5" stroke="currentColor" stroke-width="1"/>
+        <line x1="0.5" y1="16" x2="31.5" y2="16" stroke="currentColor" stroke-width="1"/>
+        <circle cx="16" cy="16" r="1.6" fill="currentColor"/>
+      </svg>
+      <span class="brand-name">Meridian</span>
+    </a>
+    <nav class="masthead-nav" aria-label="Exhibition">
+      <a href="index.html">Home</a>
+      <a href="plates.html">Plates</a>
+      <a href="instruments.html">Instruments</a>
+      <a href="programme.html">Programme</a>
+      <a href="visit.html">Visit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="credits">
+  <section class="section">
+    <div class="shell">
+      <div class="page-intro">
+        <h1>Credits &amp; licences</h1>
+        <p class="lede">
+          Meridian is a small site with a large borrowed library behind it. The
+          pages here were written for this exhibition; the star engine, the sky
+          data and the reference catalogues come from other projects and are
+          credited below, with the licence that applies to each.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <h2>This site</h2>
+        <p class="lede">
+          The HTML, CSS and JavaScript written for this site are released under
+          the GNU Affero General Public License, version 3.
+        </p>
+      </div>
+      <div class="prose">
+        <p>
+          This covers the catalogue pages, the planisphere, the reservation
+          function and the build configuration. The engine that renders the sky
+          is licensed under the same terms, so the whole distribution is
+          AGPL-3.0.
+        </p>
+        <p>
+          The full licence text ships with the site and can be read at
+          <a href="../LICENSE">LICENSE</a>. The corresponding source for the
+          network service is published at
+          <a href="https://github.com/lllllf-hhhhhq/meridian-observatory" target="_blank" rel="noopener">github.com/lllllf-hhhhhq/meridian-observatory</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <h2>Stellarium Web Engine</h2>
+        <p class="lede">
+          The sky renderer on this site is the Stellarium Web Engine, compiled
+          from source and redistributed unchanged under AGPL-3.0.
+        </p>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table data-table--narrow">
+          <caption>Engine files and their origin</caption>
+          <thead>
+            <tr>
+              <th scope="col">Bundled file</th>
+              <th scope="col">Upstream</th>
+              <th scope="col">Licence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>vendor/swe/stellarium-web-engine.js</td>
+              <td>Stellarium/stellarium-web-engine</td>
+              <td>AGPL-3.0</td>
+            </tr>
+            <tr>
+              <td>vendor/swe/stellarium-web-engine.wasm</td>
+              <td>Stellarium/stellarium-web-engine</td>
+              <td>AGPL-3.0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note">
+        Upstream repository:
+        <a href="https://github.com/Stellarium/stellarium-web-engine" target="_blank" rel="noopener">github.com/Stellarium/stellarium-web-engine</a>.
+        Licence text:
+        <a href="https://github.com/Stellarium/stellarium-web-engine/blob/master/LICENSE-AGPL-3.0.txt" target="_blank" rel="noopener">LICENSE-AGPL-3.0.txt</a>.
+        The engine is built with the Emscripten SDK from the upstream sources.
+        Copyright remains with the Stellarium Web Engine authors.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <h2>Astronomy data</h2>
+        <p class="lede">
+          The star, deep sky object, sky culture, landscape and meteor shower
+          data are a mirror of content distributed by the Stellarium project.
+        </p>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>Mirrored datasets and the directory each one occupies</caption>
+          <thead>
+            <tr>
+              <th scope="col">Dataset</th>
+              <th scope="col">Directory</th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Minimum star survey (HiPS)</td>
+              <td>data/stars/</td>
+              <td>Stellarium Web CDN</td>
+            </tr>
+            <tr>
+              <td>Base deep sky object survey (HiPS)</td>
+              <td>data/dsos/</td>
+              <td>Stellarium Web CDN</td>
+            </tr>
+            <tr>
+              <td>Western sky culture</td>
+              <td>data/skycultures/western/</td>
+              <td>Stellarium Web CDN</td>
+            </tr>
+            <tr>
+              <td>Guereins landscape (HiPS)</td>
+              <td>data/landscapes/guereins/</td>
+              <td>Stellarium Web CDN</td>
+            </tr>
+            <tr>
+              <td>Meteor shower model data</td>
+              <td>data/meteor-showers.json</td>
+              <td>Stellarium Web CDN</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source-note">
+        Source:
+        <a href="https://stellarium.sfo2.cdn.digitaloceanspaces.com/stellarium-web/libswe-1.17.0" target="_blank" rel="noopener">stellarium.sfo2.cdn.digitaloceanspaces.com/stellarium-web/libswe-1.17.0</a>.
+        Each dataset may carry its own licence and attribution terms, set by the
+        Stellarium project and by the original data providers, such as the star
+        catalogues and the sky culture contributors. No separate licence file
+        accompanies the mirrored files here, and the per dataset terms could not
+        be confirmed from a first hand source at the time of writing. The
+        Stellarium project and its upstream data providers are the source of
+        truth for the licensing of these datasets.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <h2>Reference catalogues</h2>
+        <p class="lede">
+          The measured positions quoted on the planisphere and the Plates page
+          come from published catalogues rather than from the engraving.
+        </p>
+      </div>
+      <div class="prose">
+        <ul>
+          <li>
+            Star positions, visual magnitudes and spectral types follow the Yale
+            Bright Star Catalog as catalogued in
+            <a href="https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=V/50" target="_blank" rel="noopener">VizieR V/50</a>,
+            quoted from the corresponding
+            <a href="https://simbad.u-strasbg.fr/simbad/" target="_blank" rel="noopener">SIMBAD</a>
+            records.
+          </li>
+          <li>
+            Deep sky object coordinates, types and magnitudes are quoted from
+            <a href="https://simbad.u-strasbg.fr/simbad/" target="_blank" rel="noopener">SIMBAD</a>.
+          </li>
+          <li>
+            Galaxy distances follow
+            <a href="https://ned.ipac.caltech.edu/" target="_blank" rel="noopener">NASA/IPAC NED</a>.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <h2>Typefaces</h2>
+        <p class="lede">
+          The site loads three typefaces from Google Fonts, each licensed by its
+          designer.
+        </p>
+      </div>
+      <div class="prose">
+        <ul>
+          <li>
+            <a href="https://fonts.google.com/specimen/Albert+Sans" target="_blank" rel="noopener">Albert Sans</a>,
+            used for body text and headings.
+          </li>
+          <li>
+            <a href="https://fonts.google.com/specimen/JetBrains+Mono" target="_blank" rel="noopener">JetBrains Mono</a>,
+            used for catalogue figures.
+          </li>
+          <li>
+            <a href="https://fonts.google.com/specimen/Marcellus" target="_blank" rel="noopener">Marcellus</a>,
+            used for display titles.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell foot-inner">
+    <p class="foot-address">
+      Meridian, Society of Celestial Cartography &amp; Instrument-Making, 6 Observatory Passage, the Long Room, Meridian House.
+      <br>Open Wed–Sun, from 17:00. Collection visits by reservation.
+    </p>
+    <p class="foot-meta">
+      <a href="index.html">Home</a> &middot;
+      <a href="plates.html">Plates</a> &middot;
+      <a href="instruments.html">Instruments</a> &middot;
+      <a href="programme.html">Programme</a> &middot;
+      <a href="visit.html">Visit</a> &middot;
+      <a href="https://github.com/lllllf-hhhhhq/meridian-observatory" target="_blank" rel="noopener">Source (AGPL-3.0)</a>
+    </p>
+  </div>
+</footer>
+
+<script src="reserve.js"></script>
+</body>
+</html>

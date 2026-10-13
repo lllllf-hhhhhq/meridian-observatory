@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian — Society of Celestial Cartography &amp; Instrument-Making</title>
+<meta name="description" content="Meridian, a society of celestial cartography and instrument-making. Autumn exhibition, atlas plates, and evening viewing sessions.">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Marcellus&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%230B0F1A' stroke='%23E9A13B' stroke-width='2'/%3E%3Cpath d='M16 3v26M3 16h26' stroke='%23E9A13B' stroke-width='2'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the exhibition</a>
+
+<!-- ============ FIRST VIEWPORT: the working planisphere ============ -->
+<section class="sky-field" aria-labelledby="wordmark">
+  <canvas id="sky" class="sky-canvas" role="img"
+          aria-label="A planisphere of the northern night sky, drawn as an antique star chart with constellation lines and the twenty brightest stars plotted from their catalogued positions. Use the Ephemeris control or the Rotate control to turn it, or drag across it with a pointer."></canvas>
+
+  <div class="sky-veil" aria-hidden="true"></div>
+
+  <div class="sky-ui">
+    <header class="masthead">
+      <a class="brand" href="index.html" id="top">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
+          <circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" stroke-width="1"/>
+          <circle cx="16" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="1"/>
+          <line x1="16" y1="0.5" x2="16" y2="31.5" stroke="currentColor" stroke-width="1"/>
+          <line x1="0.5" y1="16" x2="31.5" y2="16" stroke="currentColor" stroke-width="1"/>
+          <circle cx="16" cy="16" r="1.6" fill="currentColor"/>
+        </svg>
+        <span class="brand-name">Meridian</span>
+      </a>
+      <nav class="masthead-nav" aria-label="Exhibition">
+        <a href="plates.html">Plates</a>
+        <a href="instruments.html">Instruments</a>
+        <a href="programme.html">Programme</a>
+        <a href="visit.html">Visit</a>
+      </nav>
+    </header>
+
+    <div class="sky-lead">
+      <div class="wordmark-wrap">
+        <h1 class="wordmark" id="wordmark">Meridian</h1>
+        <span class="solar-disc" aria-hidden="true"></span>
+      </div>
+      <p class="proposition">
+        A society of celestial cartography and instrument-making keeps its
+        autumn exhibition open after dark, with engraved atlases, working
+        astrolabes, and the sky itself turning on the wall.
+      </p>
+    </div>
+
+    <div class="sky-controls">
+      <div class="control-cluster">
+        <label class="control-label" for="ephemeris">Ephemeris</label>
+        <div class="select-shell">
+          <select id="ephemeris" class="control-select">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9" selected>October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-ghost" id="rotate-sky">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M10 3.2a6.8 6.8 0 1 1-6.5 4.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M1.6 3.4v4.9h4.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Rotate sky
+      </button>
+
+      <a class="btn btn-primary" href="visit.html#reserve">Reserve a session</a>
+    </div>
+
+    <p class="sky-fineprint">
+      The twenty named stars are plotted from catalogue positions
+      (right ascension and declination, J2000); the constellation figures
+      between them are drawn as line sets, not as the modern boundaries, and
+      the faint field stars are generated for texture.
+      <span id="catalogue-credit"></span>
+    </p>
+
+    <p class="sky-hint" id="sky-hint">Drag across the sky to turn it.</p>
+  </div>
+
+  <div class="sky-readout" id="sky-readout" role="status" aria-live="polite" hidden>
+    <span class="readout-name" id="readout-name"></span>
+    <span class="readout-coords mono" id="readout-coords"></span>
+  </div>
+
+  <div class="sr-only">
+    <h2>Text description of the planisphere</h2>
+    <p>The chart rotates about the north celestial pole. Principal stars are
+    plotted at their catalogued positions and joined into six line-drawn
+    constellations: Ursa Major, Orion, Cassiopeia, Cygnus, Lyra and Scorpius.
+    The position of the sun is marked for the selected month.</p>
+    <ul>
+      <li>Ursa Major, seven principal stars; Dubhe and Merak point to the pole.</li>
+      <li>Orion, eight principal stars with the Belt across the middle.</li>
+      <li>Cassiopeia, five principal stars forming the chair.</li>
+      <li>Cygnus, five principal stars forming the swan, Deneb at the tail.</li>
+      <li>Lyra, five principal stars; Vega is the brightest in the northern summer sky.</li>
+      <li>Scorpius, seven principal stars; Antares is the heart of the scorpion.</li>
+    </ul>
+  </div>
+</section>
+
+<main id="main">
+  <!-- ============ THE SOCIETY ============ -->
+  <section class="section">
+    <div class="shell split split--wide-lead">
+      <div class="prose">
+        <h2>The society</h2>
+        <p>
+          Meridian has kept its rooms at Observatory Passage since 1776, when a
+          group of engravers took over a workshop that had been cutting
+          instruments for the Admiralty and began printing the charts they had
+          been measuring against.
+        </p>
+        <p>
+          The two trades have stayed in the same building ever since. Plates
+          are drawn by hand from a sight taken on the roof, and every
+          instrument in the collection was built to answer a question that a
+          plate had already asked in ink. The autumn exhibition puts both
+          halves of that argument in the same room.
+        </p>
+        <p>
+          The rooms are open to the public from late afternoon until the last
+          session ends, and a visit is led by an attendant rather than left to
+          a leaflet. Nothing on the wall is behind glass, and the instruments
+          come out of their cases on the bench.
+        </p>
+      </div>
+
+      <div class="sticky-col">
+        <div class="table-scroll">
+          <table class="data-table data-table--narrow">
+            <caption>The rooms and the collection</caption>
+            <tbody>
+              <tr><td>Founded</td><td class="num">1776</td></tr>
+              <tr><td>Rooms</td><td class="num">6 Observatory Passage</td></tr>
+              <tr><td>Copper plates held</td><td class="num">41</td></tr>
+              <tr><td>Instruments held</td><td class="num">19</td></tr>
+              <tr><td>On show this season</td><td class="num">6 plates, 7 instruments</td></tr>
+              <tr><td>Open</td><td class="num">Wed &ndash; Sun, from 17:00</td></tr>
+              <tr><td>A session seats</td><td class="num">12 visitors</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">
+          Season dates and session times are listed in the
+          <a href="programme.html">programme</a>. Places are held at the door
+          through the <a href="visit.html#reserve">reservation desk</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT IS ON SHOW ============ -->
+  <section class="section">
+    <div class="shell">
+      <div class="section-head">
+        <h2>What is on show</h2>
+        <p class="lede">
+          Four rooms make up the exhibition, in the order a visitor walks them.
+        </p>
+      </div>
+
+      <nav class="index-list" aria-label="Exhibition sections">
+        <a class="index-row" href="plates.html">
+          <span class="row-n">01</span>
+          <span class="row-t">Plates</span>
+          <span class="row-d">Six engraved charts on the wall, and the reference stars they were drawn from.</span>
+          <svg class="row-a" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="index-row" href="instruments.html">
+          <span class="row-n">02</span>
+          <span class="row-t">Instruments</span>
+          <span class="row-d">The engraver's bench, the astrolabe and the error notebooks that corrected them.</span>
+          <svg class="row-a" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="index-row" href="programme.html">
+          <span class="row-n">03</span>
+          <span class="row-t">Programme</span>
+          <span class="row-d">Opening nights, bench demonstrations, moon studies and the closing late views.</span>
+          <svg class="row-a" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="index-row" href="visit.html">
+          <span class="row-n">04</span>
+          <span class="row-t">Visit</span>
+          <span class="row-d">Opening hours, access, group visits and the reservation desk.</span>
+          <svg class="row-a" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ============ VISIT TEASER ============ -->
+  <section class="section reserve">
+    <div class="shell split">
+      <div class="prose">
+        <h2>An evening in the Long Room</h2>
+        <p>
+          Doors open fifteen minutes before the session. The attendant takes
+          the bench first and the instruments are passed round while the light
+          is still bright enough to read a graduation by. The plates come next,
+          lit from the side so the burin cuts cast their own shadows.
+        </p>
+        <p>
+          The evening finishes at the north wall, where the planisphere turns
+          through a year in the time it takes to ask a question about it.
+        </p>
+      </div>
+      <div>
+        <div class="table-scroll">
+          <table class="data-table data-table--narrow">
+            <caption>Next evenings still open</caption>
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Session</th><th scope="col">Room</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Wed 14 Oct</td><td class="num">18:30</td><td>Long Room</td></tr>
+              <tr><td>Sat 17 Oct</td><td class="num">19:30</td><td>North Wall</td></tr>
+              <tr><td>Thu 05 Nov</td><td class="num">18:30</td><td>Print Study Room</td></tr>
+              <tr><td>Fri 18 Dec</td><td class="num">20:30</td><td>North Wall</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="source-note">
+          Places are held by email. <a href="visit.html#reserve">Reserve a
+          session</a>, or read the full <a href="programme.html">programme</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="shell foot-inner">
+    <p class="foot-address">
+      Meridian, Society of Celestial Cartography &amp; Instrument-Making, 6 Observatory Passage, the Long Room, Meridian House.
+      <br>Open Wed–Sun, from 17:00. Collection visits by reservation.
+    </p>
+    <p class="foot-meta">
+      <a href="plates.html">Plates</a> &middot;
+      <a href="instruments.html">Instruments</a> &middot;
+      <a href="programme.html">Programme</a> &middot;
+      <a href="visit.html">Visit</a>
+    </p>
+    <p class="foot-meta">
+      <a href="credits.html">Credits &amp; licences</a> &middot;
+      <a href="https://github.com/lllllf-hhhhhq/meridian-observatory" target="_blank" rel="noopener">Source code (AGPL-3.0)</a>
+    </p>
+  </div>
+</footer>
+
+<script src="planisphere.js"></script>
+</body>
+</html>
