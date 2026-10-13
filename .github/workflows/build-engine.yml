@@ -1,0 +1,96 @@
+name: Build Stellarium Web Engine
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/build-engine.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: emscripten/emsdk:1.39.17
+    timeout-minutes: 120
+    steps:
+      - name: Diagnostics
+        shell: bash
+        run: |
+          set +e
+          echo "--- emsdk env ---"
+          source /emsdk/emsdk_env.sh
+          echo "PATH=$PATH"
+          which emcc; emcc --version | head -n 2
+          which emscons
+          echo "--- python/scons ---"
+          python3 --version
+          which scons
+          echo "--- os ---"
+          cat /etc/os-release | head -n 2
+          exit 0
+
+      - name: Install toolchain extras
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y wget git ca-certificates build-essential apt-transport-https scons
+
+      - name: Clone engine with submodules
+        shell: bash
+        run: |
+          git clone --recurse-submodules https://github.com/Stellarium/stellarium-web-engine.git /swe
+          cd /swe && git rev-parse HEAD
+
+      - name: Build engine (make js)
+        id: build
+        shell: bash
+        run: |
+          set -o pipefail
+          cd /swe
+          source /emsdk/emsdk_env.sh
+          make js 2>&1 | tee /swe/build.log
+          echo "--- build output ---"
+          ls -la /swe/build
+
+      - name: Collect artifacts
+        if: success()
+        shell: bash
+        run: |
+          mkdir -p /out
+          cp /swe/build/stellarium-web-engine.js /out/ || true
+          cp /swe/build/stellarium-web-engine.wasm /out/ || true
+          cp /swe/build/stellarium-web-engine.data /out/ 2>/dev/null || true
+          ls -la /out
+
+      - name: Publish release assets
+        if: success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: engine-run-${{ github.run_number }}
+          name: Stellarium Web Engine build ${{ github.run_number }}
+          body: |
+            Automated build of Stellarium Web Engine from source.
+            Upstream: https://github.com/Stellarium/stellarium-web-engine
+          files: |
+            /out/stellarium-web-engine.js
+            /out/stellarium-web-engine.wasm
+
+      - name: Commit build log on failure
+        if: failure()
+        shell: bash
+        run: |
+          set +e
+          git clone https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git /site
+          cd /site
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          tail -n 500 /swe/build.log > build-log.txt 2>/dev/null
+          if [ -s build-log.txt ]; then
+            git add build-log.txt
+            git commit -m "chore: capture build log from failed run ${{ github.run_number }}"
+            git push
+          fi
