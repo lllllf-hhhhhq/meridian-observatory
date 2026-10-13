@@ -16,55 +16,61 @@ jobs:
     container:
       image: emscripten/emsdk:1.39.17
     timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Diagnostics
-        shell: bash
         run: |
           set +e
-          echo "--- emsdk env ---"
-          source /emsdk/emsdk_env.sh
-          echo "PATH=$PATH"
-          which emcc; emcc --version | head -n 2
-          which emscons
-          echo "--- python/scons ---"
-          python3 --version
-          which scons
-          echo "--- os ---"
-          cat /etc/os-release | head -n 2
+          mkdir -p /ci
+          {
+            echo "=== run ${{ github.run_number }} ==="
+            echo "--- os ---"
+            head -n 2 /etc/os-release
+            echo "--- emsdk ---"
+            source /emsdk/emsdk_env.sh
+            echo "PATH=$PATH"
+            which emcc && emcc --version | head -n 2
+            which emscons
+            which scons || echo "scons: not present yet (expected)"
+            echo "--- python ---"
+            python3 --version
+            python3 -m pip --version
+          } 2>&1 | tee -a /ci/ci.log
           exit 0
 
-      - name: Install toolchain extras
-        shell: bash
+      - name: Install scons via pip
         run: |
-          apt-get update
-          apt-get install -y wget git ca-certificates build-essential apt-transport-https scons
+          set -o pipefail
+          python3 -m pip install --no-cache-dir --disable-pip-version-check "scons==4.5.2" 2>&1 | tee -a /ci/ci.log
+          which scons
+          scons --version 2>&1 | tee -a /ci/ci.log
 
       - name: Clone engine with submodules
-        shell: bash
         run: |
-          git clone --recurse-submodules https://github.com/Stellarium/stellarium-web-engine.git /swe
-          cd /swe && git rev-parse HEAD
+          set -o pipefail
+          git clone --recurse-submodules https://github.com/Stellarium/stellarium-web-engine.git /swe 2>&1 | tee -a /ci/ci.log
+          git -C /swe rev-parse HEAD | tee -a /ci/ci.log
 
-      - name: Build engine (make js)
+      - name: Build engine
         id: build
-        shell: bash
         run: |
           set -o pipefail
           cd /swe
           source /emsdk/emsdk_env.sh
-          make js 2>&1 | tee /swe/build.log
-          echo "--- build output ---"
-          ls -la /swe/build
+          emscons scons -j8 mode=release werror=0 2>&1 | tee -a /ci/ci.log
+          echo "--- build dir ---" | tee -a /ci/ci.log
+          ls -la /swe/build 2>&1 | tee -a /ci/ci.log
 
       - name: Collect artifacts
         if: success()
-        shell: bash
         run: |
           mkdir -p /out
-          cp /swe/build/stellarium-web-engine.js /out/ || true
-          cp /swe/build/stellarium-web-engine.wasm /out/ || true
+          cp /swe/build/stellarium-web-engine.js /out/
+          cp /swe/build/stellarium-web-engine.wasm /out/
           cp /swe/build/stellarium-web-engine.data /out/ 2>/dev/null || true
-          ls -la /out
+          ls -la /out | tee -a /ci/ci.log
 
       - name: Publish release assets
         if: success()
@@ -79,18 +85,18 @@ jobs:
             /out/stellarium-web-engine.js
             /out/stellarium-web-engine.wasm
 
-      - name: Commit build log on failure
+      - name: Save CI log on failure
         if: failure()
-        shell: bash
         run: |
           set +e
-          git clone https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git /site
-          cd /site
+          cd /tmp
+          git clone "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" /site 2>&1 | tail -n 5
+          cd /site || exit 0
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          tail -n 500 /swe/build.log > build-log.txt 2>/dev/null
-          if [ -s build-log.txt ]; then
+          if [ -s /ci/ci.log ]; then
+            tail -n 2000 /ci/ci.log > build-log.txt
             git add build-log.txt
             git commit -m "chore: capture build log from failed run ${{ github.run_number }}"
-            git push
+            git push || true
           fi
